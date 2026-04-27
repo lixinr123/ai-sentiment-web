@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>AI情感分析系统</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+
+<div class="container">
+    <h1>🤖 AI情感分析</h1>
+
+    <textarea id="text" placeholder="输入一句话..."></textarea>
+    <button onclick="analyze()">分析</button>
+
+    <h2 id="result"></h2>
+</div>
+
+<script>
+function analyze() {
+    let text = document.getElementById("text").value;
+
+    fetch("/analyze", {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({text: text})
+    })
+    .then(res => res.json())
+    .then(data => {
+        document.getElementById("result").innerText =
+            "结果：" + data.label + " (置信度：" + data.score.toFixed(2) + ")";
+    });
+}
+</script>
+
+</body>
+</html>
